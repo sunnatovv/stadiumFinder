@@ -13,9 +13,22 @@ import { RegionModule } from './region/region.module';
 import { AdminModule } from './admin/admin.module';
 import { Region } from './region/models/region.model';
 import { Admin } from './admin/models/admin.model';
+import { MailModule } from './mail/mail.module';
+import { BotModule } from './bot/bot.module';
+import { TelegrafModule } from 'nestjs-telegraf';
+import { BOT_NAME } from './app.constants';
 
 @Module({
   imports: [
+    TelegrafModule.forRootAsync({
+      botName: BOT_NAME,
+      useFactory: () => ({
+        token: process.env.BOT_TOKEN,
+        middlewares: [],
+        include: [BotModule],
+      }),
+    }),
+
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
@@ -24,7 +37,7 @@ import { Admin } from './admin/models/admin.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Comfort, Category, District, Region,Admin],
+      models: [User, Comfort, Category, District, Region, Admin],
       autoLoadModels: true,
       sync: { alter: true },
       logging: true,
@@ -35,6 +48,8 @@ import { Admin } from './admin/models/admin.model';
     DistrictModule,
     RegionModule,
     AdminModule,
+    MailModule,
+    BotModule,
   ],
   controllers: [],
   providers: [],

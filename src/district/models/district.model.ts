@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Column, DataType, Model } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 interface IDistrictCreationAttr {
   name: string;
   regionId: number;
 }
-
+@Table({tableName:"district"})
 export class District extends Model<District, IDistrictCreationAttr> {
   @ApiProperty({
     example: 1,
