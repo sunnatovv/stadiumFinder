@@ -8,6 +8,7 @@ import {
   Delete,
   Res,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
@@ -17,6 +18,8 @@ import { Response } from 'express';
 import { Admin } from './models/admin.model';
 import { CookieGetter } from '../decorators/cookie_getter.decorator';
 import { LoginAdminDto } from './dto/login-admin.dto';
+import { UserGuard } from '../guards/user.guard';
+import { SelfGuard } from '../guards/self.guard';
 
 @Controller('admin')
 export class AdminController {
@@ -46,6 +49,8 @@ export class AdminController {
     return this.adminService.login(loginAdminDto, res);
   }
 
+  @UseGuards(SelfGuard)
+  @UseGuards(UserGuard)
   @HttpCode(200)
   @Post('logout')
   async logout(
@@ -65,12 +70,11 @@ export class AdminController {
     return this.adminService.refreshToken(+id, refreshToken, res);
   }
 
-  
   @Get()
   async findAll() {
     return this.adminService.findAll();
   }
-  
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.adminService.findOne(+id);
@@ -80,10 +84,10 @@ export class AdminController {
   async update(
     @Param('id') id: string,
     @Body() updateAdminDto: UpdateAdminDto,
-    ) {
+  ) {
     return this.adminService.update(+id, updateAdminDto);
   }
-  
+
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.adminService.remove(+id);
