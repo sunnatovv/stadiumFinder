@@ -8,7 +8,8 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Stadiums } from '../../stadiums/model/stadium.model';
-import { Comfort } from '../../comfort/model/comfort.model';
+import { Comfort } from '../../comfort/models/comfort.model';
+// import { Comfort } from '../../comfort/model/comfort.model';
 
 // Interface for defining attributes required for creating a new ComfortStadium entry
 interface ComfortStadiumCreationAttr {

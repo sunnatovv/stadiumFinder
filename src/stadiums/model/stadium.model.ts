@@ -8,12 +8,14 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Comfort } from '../../comfort/model/comfort.model';
+
 import { ComfortStadium } from '../../confort_stadium/model/confort_stadium.model';
-import { District } from '../../district/model/district.model';
-import { Region } from '../../region/model/region.model';
-import { Users } from '../../users/model/user.model';
-import { Category } from '../../categories/model/category.model';
+
+import { Category } from '../../categories/models/category.model';
+import { User } from '../../users/models/user.model';
+import { District } from '../../district/models/district.model';
+import { Region } from '../../region/models/region.model';
+import { Comfort } from '../../comfort/models/comfort.model';
 
 // Interface defining the attributes needed to create a Stadium
 interface StadiumCreationAttr {
@@ -58,7 +60,7 @@ export class Stadiums extends Model<Stadiums, StadiumCreationAttr> {
   @ApiProperty({
     description: 'Owner ID of the stadium',
   })
-  @ForeignKey(() => Users)
+  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
   })
@@ -150,8 +152,8 @@ export class Stadiums extends Model<Stadiums, StadiumCreationAttr> {
   @BelongsTo(() => Category)
   category: Category;
 
-  @BelongsTo(() => Users)
-  users: Users;
+  @BelongsTo(() => User)
+  users: User;
 
   @BelongsTo(() => Region)
   region: Region;
